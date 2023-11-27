@@ -2,6 +2,8 @@ package it.unibo.oop.lab.lambda;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,7 +63,13 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Optional.filter
          */
-        return null;
+        final List<Optional<T>> lnew = new ArrayList<>();
+        list.forEach(elem -> {
+            final Optional<T> t = Optional.ofNullable(elem);
+            final Optional<T> tmodified = t.filter(pre); //Chiama la test del predicato in automatico sull'elemento t
+            lnew.add(tmodified);
+        });
+        return lnew;
     }
 
     /**
@@ -80,7 +88,19 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Map.merge
          */
-        return null;
+        final Map<R, Set<T>> mappa = new LinkedHashMap<>();
+        list.forEach(elem -> {
+            //Il terzo argomento mi dice come relazionare i primi due argomenti
+            mappa.merge(
+                op.apply(elem), 
+                Set.of(elem), 
+                (oldValueSet, newValueSet) -> {
+                    final Set<T> mergeSet = new LinkedHashSet<>(oldValueSet);
+                    mergeSet.addAll(newValueSet); 
+                    return mergeSet;
+            });
+        });
+        return mappa;
     }
 
     /**
@@ -101,7 +121,11 @@ public final class LambdaUtilities {
          *
          * Keep in mind that a map can be iterated through its forEach method
          */
-        return null;
+        final Map<K, V> mappa = new LinkedHashMap<>();
+        map.forEach((key, optionalValue) -> {
+            mappa.put(key, optionalValue.orElse(def.get()));
+        });
+        return mappa;
     }
 
     /**
