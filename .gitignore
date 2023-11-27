@@ -6,7 +6,7 @@
 *.class
 
 # Log file
-*.log
+*.logx
 
 # BlueJ files
 *.ctxt
