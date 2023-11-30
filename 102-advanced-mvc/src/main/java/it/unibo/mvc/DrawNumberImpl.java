@@ -1,6 +1,9 @@
 package it.unibo.mvc;
 
 import java.util.Random;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  *
@@ -22,6 +25,10 @@ public final class DrawNumberImpl implements DrawNumber {
         this.max = max;
         this.attempts = attempts;
         this.reset();
+    }
+
+    public DrawNumberImpl(final Configuration configuration) {
+       this(configuration.getMin(), configuration.getMax(), configuration.getAttempts());
     }
 
     @Override
