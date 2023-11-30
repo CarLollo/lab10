@@ -1,16 +1,11 @@
 package it.unibo.mvc;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.StringTokenizer;
 
 /**
@@ -36,17 +31,16 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
             view.setObserver(this);
             view.start();
         }
-        //Pezzo nuovo
+        //Configuration file
         final InputStream fileStream =  ClassLoader.getSystemResourceAsStream("config.yml");
         Configuration configuration;
-        Configuration.Builder configurationBuilder = new Configuration.Builder();
+        final Configuration.Builder configurationBuilder = new Configuration.Builder();
         try(final BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                StringTokenizer tokenizer = new StringTokenizer(line, ": ");
-                String configurationName = (String)tokenizer.nextElement();
-                int configurationValue = Integer.parseInt((String)tokenizer.nextElement());
-                System.out.println(configurationValue);
+                final StringTokenizer tokenizer = new StringTokenizer(line, ": ");
+                final String configurationName = (String)tokenizer.nextElement();
+                final int configurationValue = Integer.parseInt((String)tokenizer.nextElement());
                 if (configurationName.equals("minimum")) {
                     configurationBuilder.setMin(configurationValue);
                 } else if(configurationName.equals("maximum")) {
@@ -103,7 +97,8 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * @throws FileNotFoundException 
      */
     public static void main(final String... args) throws FileNotFoundException {
-        new DrawNumberApp(new DrawNumberViewImpl());
+        new DrawNumberApp(new DrawNumberViewImpl(), new DrawNumberViewImpl(), 
+                        new PrintStreamView("output.log"), new PrintStreamView(System.out));
     }
 
 }

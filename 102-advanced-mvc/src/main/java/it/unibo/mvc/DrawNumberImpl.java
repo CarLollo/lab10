@@ -1,9 +1,6 @@
 package it.unibo.mvc;
 
 import java.util.Random;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 /**
  *
